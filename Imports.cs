@@ -1240,19 +1240,19 @@ namespace tutorial_SHADER
                 bmi.bmiHeader.biPlanes = 1;
                 bmi.bmiHeader.biBitCount = 32;
                 bmi.bmiHeader.biCompression = 0;
-                byte[] pixelData = new byte[x * y * 4];
-                Marshal.Copy(getScreen().LockBits(new Rectangle(0, 0, x, y), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb).Scan0, pixelData, 0, pixelData.Length);
+                byte[] ptr = new byte[x * y * 4];
+                Marshal.Copy(getScreen().LockBits(new Rectangle(0, 0, x, y), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb).Scan0, ptr, 0, ptr.Length);
                 for (int yy = 0; yy < y; yy++)
                 {
                     for (int xx = 0; xx < x; xx++)
                     {
                         int index = (yy * x + xx) * 4;
-                        pixelData[index] += (byte)(rgbcol32);
-                        pixelData[index + 1] += (byte)(rgbcol32 >> 8);
-                        pixelData[index + 2] += (byte)(rgbcol32 >> 16);
+                        ptr[index] += (byte)(rgbcol32);
+                        ptr[index + 1] += (byte)(rgbcol32 >> 8);
+                        ptr[index + 2] += (byte)(rgbcol32 >> 16);
                     }
                 }
-                SetDIBitsToDevice(hdc, 0, 0, (uint)x, (uint)y, 0, 0, 0, (uint)y, pixelData, ref bmi, 0);
+                SetDIBitsToDevice(hdc, 0, 0, (uint)x, (uint)y, 0, 0, 0, (uint)y, ptr, ref bmi, 0);
             }
             catch { }
         }
